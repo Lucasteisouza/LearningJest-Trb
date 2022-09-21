@@ -87,12 +87,52 @@
 //------------------------------------------------------------------------------------------
 
 // PASSO 4: Adicione ao objeto retornado por `createMenu()` uma chave `pay` armazenando uma função
-// que:
+// que: 
 // - percorrerá item a item de `objetoRetornado.consumption`;
 // - fará a soma do preço desses itens;
 // - retornará o valor somado acrescido de 10%.
 // DICA: para isso, você precisará percorrer tanto o objeto da chave `food` quanto o objeto da chave `drink`.
+let consumpt = [];
+const createMenu = (par) => {
+  const obj = {
+    fetchMenu: () => {
+      const fetchObj = par;
+      return fetchObj;
+    },
+    order: (order1) => {
+      consumpt.push(order1);
+      return obj;
+    },
+    consumption: consumpt,
+    pay: () => {
+      let payOut = 0;
+      let arrOFoods = Object.entries(obj.fetchMenu().food);
+      arrOFoods = arrOFoods.concat(Object.entries(obj.fetchMenu().drinks));
+      for (let index = 0; index < consumpt.length; index += 1) {
+        for (let index2 = 0; index2 < arrOFoods.length; index2 += 1) {
+          if (consumpt[index] === arrOFoods[index2][0]) {
+            payOut += (arrOFoods[index2][1]);
+          }
+        }
+      }
+      return payOut;
+    },
+  };
+  return obj;
+};
 
-const createMenu = () => {};
-
+const manyOrders = () => {
+  createMenu().order('coxinha');
+  createMenu().order('agua');
+  createMenu().order('sopa');
+  createMenu().order('sashimi');
+};
+const payUp = () => {
+  manyOrders();
+  console.log(createMenu({
+    food: { coxinha: 4, sashimi: 10 },
+    drinks: { agua: 4, sopa: 7 },
+  }).pay());
+};
+payUp();
 module.exports = createMenu;
