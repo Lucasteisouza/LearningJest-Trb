@@ -106,13 +106,14 @@ const createMenu = (par) => {
     consumption: consumpt,
     pay: () => {
       let payOut = 0;
-      let arrOFoods = Object.entries(obj.fetchMenu().food);
-      arrOFoods = arrOFoods.concat(Object.entries(obj.fetchMenu().drinks));
+      const menuFoods = obj.fetchMenu().food;
+      const menuDrinks = obj.fetchMenu().drinks;
       for (let index = 0; index < consumpt.length; index += 1) {
-        for (let index2 = 0; index2 < arrOFoods.length; index2 += 1) {
-          if (consumpt[index] === arrOFoods[index2][0]) {
-            payOut += (arrOFoods[index2][1]);
-          }
+        if (typeof menuFoods[consumpt[index]] === 'number') {
+        payOut += menuFoods[consumpt[index]];
+        }
+        if (typeof menuDrinks[consumpt[index]] === 'number') {
+          payOut += menuDrinks[consumpt[index]];
         }
       }
       return payOut;
@@ -121,18 +122,18 @@ const createMenu = (par) => {
   return obj;
 };
 
-const manyOrders = () => {
-  createMenu().order('coxinha');
-  createMenu().order('agua');
-  createMenu().order('sopa');
-  createMenu().order('sashimi');
-};
-const payUp = () => {
-  manyOrders();
-  console.log(createMenu({
-    food: { coxinha: 4, sashimi: 10 },
-    drinks: { agua: 4, sopa: 7 },
-  }).pay());
-};
-payUp();
+// const manyOrders = () => {
+//   createMenu().order('coxinha');
+//   createMenu().order('agua');
+//   createMenu().order('sopa');
+//   createMenu().order('sashimi');
+// };
+// const payUp = () => {
+//   manyOrders();
+//   console.log(createMenu({
+//     food: { coxinha: 4, sashimi: 10 },
+//     drinks: { agua: 4, sopa: 7 },
+//   }).pay());
+// };
+// payUp();
 module.exports = createMenu;
